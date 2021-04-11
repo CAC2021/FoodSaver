@@ -48,7 +48,7 @@ public class MainActivity extends AppCompatActivity {
     ImageView imageView;
     OkHttpClient client = new OkHttpClient();
     public static final MediaType JSON
-            = MediaType.get("application/json; charset=utf-8");
+            = MediaType.get("multipart/form-data; boundary=324ff93ks0kr021");
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -97,11 +97,25 @@ public class MainActivity extends AppCompatActivity {
             Bitmap imageBitmap = (Bitmap) extras.get("data");
 
             try {
-                ByteArrayOutputStream bos = new ByteArrayOutputStream();
+                /*ByteArrayOutputStream bos = new ByteArrayOutputStream();
                 imageBitmap.compress(Bitmap.CompressFormat.JPEG, 100, bos);
                 byte[] imageBytes = bos.toByteArray();
-                String encodedImage = Base64.encodeToString(imageBytes, Base64.DEFAULT);
-                String response = post("https://api3-production.up.railway.app/api/image/", encodedImage);
+                String encodedImage = Base64.encodeToString(imageBytes, Base64.DEFAULT);*/
+                //create a file to write bitmap data
+                String filename = "photo.bmp";
+                File f = new File(getApplicationContext().getCacheDir(), filename);
+                f.createNewFile();
+
+                Bitmap bitmap = imageBitmap;
+                ByteArrayOutputStream bos = new ByteArrayOutputStream();
+                bitmap.compress(Bitmap.CompressFormat.PNG, 0 /*ignored for PNG*/, bos);
+                byte[] bitMapData = bos.toByteArray();
+
+                FileOutputStream fos = new FileOutputStream(f);
+                fos.write(bitMapData);
+                fos.flush();
+                fos.close();
+                String response = post("https://api3-production.up.railway.app/api/image/", f);
                 System.out.println(response);
                 System.out.println("Worked :)");
             }
@@ -112,8 +126,8 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    public String post(String url, String json) throws IOException {
-        RequestBody body = RequestBody.create(json, JSON);
+    public String post(String url, File f) throws IOException {
+        RequestBody body = RequestBody.create(f, JSON);
         Request request = new Request.Builder()
                 .url(url)
                 .post(body)
