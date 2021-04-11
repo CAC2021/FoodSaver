@@ -144,8 +144,14 @@ public class MainActivity extends AppCompatActivity {
               .build();
 
             ResponseBody responseBody = client.newCall(request).execute().body();
-            System.out.println("Over here");
-            System.out.println(responseBody.string());
+            String[] arr = decode(responseBody.string());
 
+    }
+
+    public String[] decode(String response) {
+        String temp = "";
+        String[] arr = new String[6];
+        System.out.println(response);
+        return arr;
     }
 }
