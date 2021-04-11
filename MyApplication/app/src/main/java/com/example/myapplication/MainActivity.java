@@ -71,6 +71,8 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
+        System.out.println("data");
+        System.out.println(data);
         if (requestCode == REQUEST_IMAGE_CAPTURE && resultCode == RESULT_OK) {
             Bundle extras = data.getExtras();
             Bitmap imageBitmap = (Bitmap) extras.get("data");
@@ -78,7 +80,8 @@ public class MainActivity extends AppCompatActivity {
             System.out.println("b4");
             try {
                 String filename = "photo.bmp";
-                File f = new File(getApplicationContext().getCacheDir(), filename);
+                //System.out.println(getApplicationContext().getCacheDir());
+                File f = new File(filename);
                 f.createNewFile();
 
                 ByteArrayOutputStream bos = new ByteArrayOutputStream();
