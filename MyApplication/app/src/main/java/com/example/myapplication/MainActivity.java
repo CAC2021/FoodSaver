@@ -41,6 +41,7 @@ import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.RequestBody;
 import okhttp3.Response;
+import okhttp3.ResponseBody;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -142,18 +143,9 @@ public class MainActivity extends AppCompatActivity {
               .post(body)
               .build();
 
-            Call call = client.newCall(request);
-            Response response = call.execute();
-        
-            System.out.println(response);
+            ResponseBody responseBody = client.newCall(request).execute().body();
+            System.out.println("Over here");
+            System.out.println(responseBody.string());
 
-//        RequestBody body = RequestBody.create(f, JSON);
-//        Request request = new Request.Builder()
-//                .url(url)
-//                .post(body)
-//                .build();
-//        try (Response response = client.newCall(request).execute()) {
-//            return response.body().string();
-//        }
     }
 }
