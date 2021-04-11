@@ -1,14 +1,14 @@
-package com.example.myapplication.ui.camera;
+package com.example.myapplication.ui.cam;
 
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
-public class CameraViewModel extends ViewModel {
+public class CamViewModel extends ViewModel {
 
     private MutableLiveData<String> mText;
 
-    public CameraViewModel() {
+    public CamViewModel() {
         mText = new MutableLiveData<>();
         mText.setValue(" ");
     }

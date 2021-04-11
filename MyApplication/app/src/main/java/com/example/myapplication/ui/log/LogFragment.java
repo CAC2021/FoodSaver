@@ -4,37 +4,29 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.example.myapplication.R;
 
 public class LogFragment extends Fragment {
 
-    private LogViewModel notificationsViewModel;
+    private LogViewModel dashboardViewModel;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
-        notificationsViewModel =
+        dashboardViewModel =
                 new ViewModelProvider(this).get(LogViewModel.class);
         View root = inflater.inflate(R.layout.fragment_log, container, false);
-        TextView applesFresh = (TextView) root.findViewById(R.id.applesFresh);
-        applesFresh.setText("91.23");
-        TextView applesSpoiled = (TextView) root.findViewById(R.id.applesSpoiled);
-        applesSpoiled.setText("8.77");
-        TextView bananasFresh = (TextView) root.findViewById(R.id.bananasFresh);
-        bananasFresh.setText("91.23");
-        TextView bananasSpoiled = (TextView) root.findViewById(R.id.bananasSpoiled);
-        bananasSpoiled.setText("8.77");
-        TextView orangesFresh = (TextView) root.findViewById(R.id.orangesFresh);
-        orangesFresh.setText("91.23");
-        TextView orangesSpoiled = (TextView) root.findViewById(R.id.orangesSpoiled);
-        orangesSpoiled.setText("8.77");
+//        final TextView textView = root.findViewById(R.id.text_dashboard);
+//        dashboardViewModel.getText().observe(getViewLifecycleOwner(), new Observer<String>() {
+//            @Override
+//            public void onChanged(@Nullable String s) {
+//                textView.setText(s);
+//            }
+//        });
         return root;
     }
 }
