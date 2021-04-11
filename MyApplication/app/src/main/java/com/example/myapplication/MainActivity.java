@@ -10,6 +10,11 @@ import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
 
+import android.view.View;
+import android.widget.Button;
+import android.widget.TextView;
+
+
 public class MainActivity extends AppCompatActivity {
 
     @Override
@@ -25,6 +30,15 @@ public class MainActivity extends AppCompatActivity {
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment);
         NavigationUI.setupActionBarWithNavController(this, navController, appBarConfiguration);
         NavigationUI.setupWithNavController(navView, navController);
+
+//        Button changeText = (Button) findViewById(R.id.navigation_log); //get the id for button
+//        changeText.setOnClickListener(new View.OnClickListener() {
+//
+//            public void onClick(View view) {
+//                TextView applesSpoiled = (TextView)findViewById(R.id.applesSpoiled);
+//                applesSpoiled.setText("After Clicking"); //set the text after clicking button
+//            }
+//        });
     }
 
 }

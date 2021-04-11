@@ -13,13 +13,13 @@
 
     <fragment
         android:id="@+id/navigation_camera"
-        android:name="com.example.myapplication.ui.dashboard.DashboardFragment"
+        android:name="com.example.myapplication.ui.camera.CameraFragment"
         android:label="@string/title_camera"
         tools:layout="@layout/fragment_camera" />
 
     <fragment
         android:id="@+id/navigation_log"
-        android:name="com.example.myapplication.ui.notifications.NotificationsFragment"
+        android:name="com.example.myapplication.ui.log.LogFragment"
         android:label="@string/title_log"
         tools:layout="@layout/fragment_log" />
 </navigation>
