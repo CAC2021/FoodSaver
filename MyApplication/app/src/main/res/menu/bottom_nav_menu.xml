@@ -5,9 +5,15 @@
         android:id="@+id/navigation_home"
         android:icon="@drawable/ic_home_black_24dp"
         android:title="@string/title_home" />
+
+    <item
+        android:id="@+id/navigation_camera"
+        android:icon="@drawable/vectorcamera"
+        android:title="@string/title_camera" />
+
     <item
         android:id="@+id/navigation_log"
-        android:icon="@drawable/ic_camera"
+        android:icon="@drawable/ic_dashboard_black_24dp"
         android:title="@string/title_log" />
 
 </menu>

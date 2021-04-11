@@ -28,6 +28,11 @@ import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
 
+
+import android.view.View;
+import android.widget.Button;
+import android.widget.TextView;
+
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.net.URL;
@@ -42,6 +47,7 @@ import okhttp3.Request;
 import okhttp3.RequestBody;
 import okhttp3.Response;
 import okhttp3.ResponseBody;
+
 
 public class MainActivity extends AppCompatActivity {
 
@@ -60,7 +66,7 @@ public class MainActivity extends AppCompatActivity {
         // Passing each menu ID as a set of Ids because each
         // menu should be considered as top level destinations.
         AppBarConfiguration appBarConfiguration = new AppBarConfiguration.Builder(
-                R.id.navigation_home, R.id.navigation_log)
+                R.id.navigation_home, R.id.navigation_camera, R.id.navigation_log)
                 .build();
         final Button camButton = (Button) findViewById(R.id.button_camera);
         imageView = findViewById(R.id.cam_image_view);
@@ -68,6 +74,15 @@ public class MainActivity extends AppCompatActivity {
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment);
         NavigationUI.setupActionBarWithNavController(this, navController, appBarConfiguration);
         NavigationUI.setupWithNavController(navView, navController);
+
+//        Button changeText = (Button) findViewById(R.id.navigation_log); //get the id for button
+//        changeText.setOnClickListener(new View.OnClickListener() {
+//
+//            public void onClick(View view) {
+//                TextView applesSpoiled = (TextView)findViewById(R.id.applesSpoiled);
+//                applesSpoiled.setText("After Clicking"); //set the text after clicking button
+//            }
+//        });
     }
 
     private void dispatchTakePictureIntent() {
