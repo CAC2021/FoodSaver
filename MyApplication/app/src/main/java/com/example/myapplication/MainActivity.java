@@ -11,6 +11,7 @@ import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
+import android.os.StrictMode;
 import android.provider.MediaStore;
 import android.view.View;
 import android.widget.Button;
@@ -76,10 +77,11 @@ public class MainActivity extends AppCompatActivity {
         }
 
     }
-
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
+        StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
+        StrictMode.setThreadPolicy(policy);
         System.out.println("data");
         System.out.println(data);
         if (requestCode == REQUEST_IMAGE_CAPTURE && resultCode == RESULT_OK) {
@@ -133,7 +135,7 @@ public class MainActivity extends AppCompatActivity {
         System.out.println(formBody);
         Request request = new Request.Builder().url(url).post(formBody).build();
         Response response = client.newCall(request).execute();
-//        System.out.println(response);
+        System.out.println(response);
     }
     public void takePicture(View view) {
         dispatchTakePictureIntent();
