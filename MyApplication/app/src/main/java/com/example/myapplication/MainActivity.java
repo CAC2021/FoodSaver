@@ -13,6 +13,7 @@ import android.os.Bundle;
 import android.os.Environment;
 import android.os.StrictMode;
 import android.provider.MediaStore;
+import android.util.Base64;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -45,6 +46,9 @@ public class MainActivity extends AppCompatActivity {
     int MY_PERMISSIONS_REQUEST_CAMERA=0;
     static final int REQUEST_IMAGE_CAPTURE = 1;
     ImageView imageView;
+    OkHttpClient client = new OkHttpClient();
+    public static final MediaType JSON
+            = MediaType.get("application/json; charset=utf-8");
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -75,8 +79,12 @@ public class MainActivity extends AppCompatActivity {
         } else {
            startActivityForResult(takePictureIntent, REQUEST_IMAGE_CAPTURE);
         }
-
     }
+
+    public void takePicture(View view) {
+        dispatchTakePictureIntent();
+    }
+
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -88,34 +96,13 @@ public class MainActivity extends AppCompatActivity {
             Bundle extras = data.getExtras();
             Bitmap imageBitmap = (Bitmap) extras.get("data");
 
-            System.out.println("b4");
             try {
-                String filename = "photo.bmp";
-                File f = new File(getApplicationContext().getCacheDir(), filename);
-                f.createNewFile();
-                System.out.println("filename"+f);
-//                ByteArrayOutputStream bos = new ByteArrayOutputStream();
-                FileOutputStream fos = new FileOutputStream(f);
-                imageBitmap.compress(Bitmap.CompressFormat.JPEG, 0, fos);
-                System.out.println(imageBitmap);
-//                byte[] bitMapData = bos.toByteArray();
-//                System.out.println(bitMapData.length);
-//                Bitmap decodedByte = BitmapFactory.decodeByteArray(bitMapData, 0,bitMapData.length); //image
-//                ImageView image = (ImageView) findViewById(R.id.picview);
-//                image.setImageBitmap(decodedByte);
-                fos.flush();
-                fos.close();
-                upload("https://api3-production.up.railway.app/api/image/" ,f);
-
-
-//                try {
-//                    fos.write(bitMapData);
-//                    System.out.println("good");
-//                }
-//                catch(Exception e){
-//                    System.out.println("Bad");
-//                }
-
+                ByteArrayOutputStream bos = new ByteArrayOutputStream();
+                imageBitmap.compress(Bitmap.CompressFormat.JPEG, 100, bos);
+                byte[] imageBytes = bos.toByteArray();
+                String encodedImage = Base64.encodeToString(imageBytes, Base64.DEFAULT);
+                String response = post("https://api3-production.up.railway.app/api/image/", encodedImage);
+                System.out.println(response);
                 System.out.println("Worked :)");
             }
             catch (Exception e) {
@@ -124,20 +111,15 @@ public class MainActivity extends AppCompatActivity {
             }
         }
     }
-    public void upload(String url, File file) throws IOException {
-        System.out.println("sdf");
-        OkHttpClient client = new OkHttpClient();
-        RequestBody formBody = new MultipartBody.Builder()
-                .setType(MultipartBody.FORM)
-                .addFormDataPart("file", file.getName(),
-                        RequestBody.create(file, MediaType.parse("multipart/form-data")))
+
+    public String post(String url, String json) throws IOException {
+        RequestBody body = RequestBody.create(JSON, json);
+        Request request = new Request.Builder()
+                .url(url)
+                .post(body)
                 .build();
-        System.out.println(formBody);
-        Request request = new Request.Builder().url(url).post(formBody).build();
-        Response response = client.newCall(request).execute();
-        System.out.println(response);
-    }
-    public void takePicture(View view) {
-        dispatchTakePictureIntent();
+        try (Response response = client.newCall(request).execute()) {
+            return response.body().string();
+        }
     }
 }
