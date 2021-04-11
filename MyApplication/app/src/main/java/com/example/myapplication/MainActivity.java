@@ -34,6 +34,7 @@ import java.net.URL;
 import java.io.FileOutputStream;
 import java.io.IOException;
 
+import okhttp3.Call;
 import okhttp3.MediaType;
 import okhttp3.MultipartBody;
 import okhttp3.OkHttpClient;
@@ -115,8 +116,8 @@ public class MainActivity extends AppCompatActivity {
                 fos.write(bitMapData);
                 fos.flush();
                 fos.close();
-                String response = post("https://api3-production.up.railway.app/api/image/", f);
-                System.out.println(response);
+                post("https://api3-production.up.railway.app/api/image/", f);
+//                System.out.println(response);
                 System.out.println("Worked :)");
             }
             catch (Exception e) {
@@ -126,14 +127,33 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    public String post(String url, File f) throws IOException {
-        RequestBody body = RequestBody.create(f, JSON);
-        Request request = new Request.Builder()
-                .url(url)
-                .post(body)
-                .build();
-        try (Response response = client.newCall(request).execute()) {
-            return response.body().string();
-        }
+    public void post(String url, File f) throws IOException {
+
+        RequestBody body = new MultipartBody.Builder()
+              .setType(MultipartBody.FORM)
+              .addFormDataPart("file", "file.png",
+                RequestBody.create(MediaType.parse("multipart/form-data"),
+                  f))
+              .build();
+
+            Request request = new Request.Builder()
+              .url(url)
+              .addHeader("Content-Type", "application/json")
+              .post(body)
+              .build();
+
+            Call call = client.newCall(request);
+            Response response = call.execute();
+        
+            System.out.println(response);
+
+//        RequestBody body = RequestBody.create(f, JSON);
+//        Request request = new Request.Builder()
+//                .url(url)
+//                .post(body)
+//                .build();
+//        try (Response response = client.newCall(request).execute()) {
+//            return response.body().string();
+//        }
     }
 }
