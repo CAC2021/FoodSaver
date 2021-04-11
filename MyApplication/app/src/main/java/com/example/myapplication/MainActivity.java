@@ -149,9 +149,14 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public String[] decode(String response) {
-        String temp = "";
-        String[] arr = new String[6];
-        System.out.println(response);
-        return arr;
+        String[] arr = response.split(" ");
+        String[] labels = new String[arr.length / 2];
+        String[] softmax = new String[arr.length / 2];
+        int maxSoftmaxIndex = 0;
+        for (int i = 0; i < labels.length; i++) {
+            if (Double.parseDouble(softmax[i]) > Double.parseDouble(softmax[maxSoftmaxIndex]))
+                maxSoftmaxIndex = i;
+        }
+        System.out.println("Rseult: " + labels[maxSoftmaxIndex]);
     }
 }
