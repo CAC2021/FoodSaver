@@ -137,8 +137,7 @@ public class MainActivity extends AppCompatActivity {
                 System.out.println("Worked :)");
             }
             catch (Exception e) {
-                System.out.println("Fatal error.");
-                System.exit(0);
+                System.out.println("Bad gateway. Sorry!");
             }
         }
     }
@@ -164,14 +163,15 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public String[] decode(String response) {
-        String[] arr = response.split(" ");
-        String[] labels = new String[arr.length / 2];
-        String[] softmax = new String[arr.length / 2];
-        int maxSoftmaxIndex = 0;
-        for (int i = 0; i < labels.length; i++) {
-            if (Double.parseDouble(softmax[i]) > Double.parseDouble(softmax[maxSoftmaxIndex]))
+        String[] arr = response.substring(1, response.length() - 1).split(" ");
+        int maxSoftmaxIndex = 1;
+        for (int i = 1; i < arr.length; i+=2) {
+            if (Double.parseDouble(arr[i]) > Double.parseDouble(arr[maxSoftmaxIndex])) {
                 maxSoftmaxIndex = i;
+            }
         }
-        System.out.println("Rseult: " + labels[maxSoftmaxIndex]);
+        System.out.println("Result: " + arr[maxSoftmaxIndex - 1]);
+
+        return new String[2];
     }
 }
